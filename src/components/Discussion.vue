@@ -34,18 +34,20 @@ function addComment(text: string, type: textType, discussion: IDiscussion|undefi
     commentText.value = ''
   }
   else {
-    discussion.replies.push({
-        id: Math.floor((Math.random() * 100) + 1),
-      date: new Date().getTime(),
-      user: {
-        name: "New"
-      },
-      text: text,
-      likes: 0,
-      iLikedIt: false,
-      showReplySection: false
-    })
-    discussion.showReplySection = false
+      if (discussion && discussion.replies) {
+          discussion.replies.push({
+              id: Math.floor((Math.random() * 100) + 1),
+              date: new Date().getTime(),
+              user: {
+                  name: "New"
+              },
+              text: text,
+              likes: 0,
+              iLikedIt: false,
+              showReplySection: false
+          })
+          discussion.showReplySection = false
+      }
     replyText.value = ''
   }
 }
