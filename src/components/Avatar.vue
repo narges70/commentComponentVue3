@@ -1,4 +1,5 @@
 <script setup>
+import StringUtils from "@/utils/StringUtils";
 defineProps({
   src: {
     type: String,
@@ -11,21 +12,14 @@ defineProps({
     required: false
   }
 })
-function avatarText(name) {
-  let text = '';
-  let textArray = name.split(' ');
-  textArray.forEach(value => {
-    text += value.charAt(0);
-  })
-  return text;
-}
+
 </script>
 
 <template>
   <div class="text-center">
     <img v-if="src" height="50" width="50" :src="src" class="rounded-circle" :alt="alt">
     <div v-else class="avatar-default rounded-circle">
-      <b class="avatar-text">{{avatarText(alt)}}</b>
+      <b class="avatar-text">{{ StringUtils.avatarText(alt) }}</b>
     </div>
   </div>
 </template>

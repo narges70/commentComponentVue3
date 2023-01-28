@@ -1,6 +1,6 @@
 <script setup>
 import Avatar from "@/components/Avatar.vue";
-import TimeUtils from "../utils/TimeUtils";
+import TimeUtils from "@/utils/TimeUtils";
 defineProps({
   item: {
     type: Object,

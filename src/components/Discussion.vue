@@ -3,37 +3,22 @@ import CommentInput from "@/components/CommentInput.vue";
 import CommentElement from "@/components/CommentElement.vue";
 import CommentElementInput from "@/components/CommentElementInput.vue";
 import {ref} from "vue";
-
-interface IUser {
-  name: string;
-  avatar?: string;
-}
-interface IComment {
-  id: number;
-  date: number; // unix timestamp in milliseconds.
-  user: IUser;
-  text: string;
-  likes: number;
-  iLikedIt: boolean;
-}
-interface IDiscussion extends IComment {
-  replies: IComment[];
-}
-
+import type {IDiscussion, IProps} from "@/utils/Model";
+import {textType} from "@/utils/Model";
 defineProps({
   discussions: {
-    type: Array,
+    type: Array as PropType<IProps>,
     required: true
   }
 })
 const replyText:string = ref('');
 const commentText:string = ref('');
 
-function incrementLikes(item:object):viod {
+function incrementLikes(item:IDiscussion):viod {
   item.likes ++;
 }
-function addComment(text: string, type: 'comment'|'reply', discussion: object, discussions:Array) {
-  if (type === 'comment') {
+function addComment(text: string, type: textType, discussion: IDiscussion, discussions:IProps) {
+  if (type === 'COMMENT') {
     discussions.push({
       date: new Date().getTime(),
       user: {
@@ -63,7 +48,7 @@ function addComment(text: string, type: 'comment'|'reply', discussion: object, d
   }
 }
 const discussionSelected:IDiscussion = ref({})
-function showReply(discussion:object):void {
+function showReply(discussion:IDiscussion):void {
   discussionSelected.value = discussion
   discussion.showReplySection = true
 }
@@ -79,7 +64,7 @@ function showReply(discussion:object):void {
             <CommentInput :modelValue="commentText"
                           class="mt-2"
                           placeholder="Start a discussion"
-                          @addComment="addComment($event, 'comment',{}, discussions)"
+                          @addComment="addComment($event, 'COMMENT',{}, discussions)"
                           @update:modelValue="newValue => commentText = newValue"/>
           </template>
         </CommentElementInput>
@@ -104,7 +89,7 @@ function showReply(discussion:object):void {
               <CommentInput :modelValue="replyText"
                             class="mt-2"
                             placeholder="Reply"
-                            @addComment="addComment($event, 'reply', discussionSelected)"
+                            @addComment="addComment($event, 'REPLY', discussionSelected)"
                             @update:modelValue="newValue => replyText = newValue"/>
             </template>
           </CommentElementInput>

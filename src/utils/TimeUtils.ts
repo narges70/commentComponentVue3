@@ -1,6 +1,7 @@
 
 class TimeUtils {
     static timeSince(date: number): string {
+        console.log("date is: ", date)
 
         let seconds = Math.floor((new Date() - date) / 1000);
 
