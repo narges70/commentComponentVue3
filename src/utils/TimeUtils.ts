@@ -1,9 +1,8 @@
 
 class TimeUtils {
     static timeSince(date: number): string {
-        console.log("date is: ", date)
-
-        let seconds = Math.floor((new Date() - date) / 1000);
+        let newDate:number = new Date().getTime()
+        let seconds = Math.floor((newDate - date) / 1000);
 
         let interval = seconds / 31536000;
 

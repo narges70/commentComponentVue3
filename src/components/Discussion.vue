@@ -7,19 +7,20 @@ import type {IDiscussion, IProps} from "@/utils/Model";
 import {textType} from "@/utils/Model";
 defineProps({
   discussions: {
-    type: Array as PropType<IProps>,
+    type: Array<IDiscussion>,
     required: true
   }
 })
-const replyText:string = ref('');
-const commentText:string = ref('');
+const replyText = ref<string>('');
+const commentText = ref<string>('');
 
-function incrementLikes(item:IDiscussion):viod {
+function incrementLikes(item:IDiscussion):void {
   item.likes ++;
 }
-function addComment(text: string, type: textType, discussion: IDiscussion, discussions:IProps) {
-  if (type === 'COMMENT') {
+function addComment(text: string, type: textType, discussion: IDiscussion|undefined, discussions:IDiscussion[]) {
+  if (type === textType.COMMENT) {
     discussions.push({
+        id: Math.floor((Math.random() * 100) + 1),
       date: new Date().getTime(),
       user: {
         name: "New"
@@ -34,6 +35,7 @@ function addComment(text: string, type: textType, discussion: IDiscussion, discu
   }
   else {
     discussion.replies.push({
+        id: Math.floor((Math.random() * 100) + 1),
       date: new Date().getTime(),
       user: {
         name: "New"
@@ -47,7 +49,7 @@ function addComment(text: string, type: textType, discussion: IDiscussion, discu
     replyText.value = ''
   }
 }
-const discussionSelected:IDiscussion = ref({})
+const discussionSelected = ref<IDiscussion>()
 function showReply(discussion:IDiscussion):void {
   discussionSelected.value = discussion
   discussion.showReplySection = true
@@ -64,7 +66,7 @@ function showReply(discussion:IDiscussion):void {
             <CommentInput :modelValue="commentText"
                           class="mt-2"
                           placeholder="Start a discussion"
-                          @addComment="addComment($event, 'COMMENT',{}, discussions)"
+                          @addComment="addComment($event, textType.COMMENT,discussionSelected, discussions)"
                           @update:modelValue="newValue => commentText = newValue"/>
           </template>
         </CommentElementInput>
@@ -89,7 +91,7 @@ function showReply(discussion:IDiscussion):void {
               <CommentInput :modelValue="replyText"
                             class="mt-2"
                             placeholder="Reply"
-                            @addComment="addComment($event, 'REPLY', discussionSelected)"
+                            @addComment="addComment($event, textType.REPLY, discussionSelected, discussions)"
                             @update:modelValue="newValue => replyText = newValue"/>
             </template>
           </CommentElementInput>

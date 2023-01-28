@@ -9,6 +9,7 @@ interface IComment {
     text: string;
     likes: number;
     iLikedIt: boolean;
+    showReplySection: boolean
 }
 interface IDiscussion extends IComment {
     replies: IComment[];

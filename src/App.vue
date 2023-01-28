@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import { reactive, ref } from 'vue'
 import Discussion from "@/components/Discussion.vue";
-import type {IProps} from "@/utils/Model";
+import type {IDiscussion} from "@/utils/Model";
 
-const discussions:IProps = reactive( [
+const discussions = reactive<IDiscussion[]>( [
   {
     id: 3,
     date: 1672576574000,
